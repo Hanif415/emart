@@ -20,11 +20,29 @@ class UserTableSeeder extends Seeder
 
             // admin
             [
-                'full_name' => 'Hanif',
+                'full_name' => 'Hanif Admin',
                 'username' => 'Admin',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('111'),
+                'password' => Hash::make('1111'),
                 'role' => 'admin',
+                'status' => 'active'
+            ],
+            // Vendor
+            [
+                'full_name' => 'Hanif Vendor',
+                'username' => 'Vendor',
+                'email' => 'vendor@gmail.com',
+                'password' => Hash::make('1111'),
+                'role' => 'vendor',
+                'status' => 'active'
+            ],
+            // Customer
+            [
+                'full_name' => 'Hanif Customer',
+                'username' => 'Customer',
+                'email' => 'customer@gmail.com',
+                'password' => Hash::make('1111'),
+                'role' => 'customer',
                 'status' => 'active'
             ]
         ]);
