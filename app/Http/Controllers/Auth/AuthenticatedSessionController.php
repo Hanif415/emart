@@ -45,4 +45,9 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function credentials(Request $request)
+    {
+        return ['email' => $request->email, 'password' => $request->password, 'status' => 'active', 'role' => 'admin'];
+    }
 }
