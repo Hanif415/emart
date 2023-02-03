@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
         <meta name="generator" content="Hugo 0.104.2">
-        <title>E-MART</title>
+        <title>Toko Online Jaya</title>
 
         <!-- Custom styles for this template -->
         <link href="/css/dashboard.css" rel="stylesheet">
