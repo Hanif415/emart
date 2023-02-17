@@ -13,7 +13,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        //
+        return view('backend.banner.index');
     }
 
     /**

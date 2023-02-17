@@ -8,10 +8,22 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('banner') ? 'active' : '' }}" aria-current="page" href="/dashboard">
-                <span data-feather="flag" class="align-text-bottom"></span>
-                Banner Management
+                <a class="nav-link {{ Request::is('banner') ? 'active' : '' }}"  data-toggle="collapse" aria-current="page" href="#">
+                    <span data-feather="flag" class="align-text-bottom"></span>
+                    Banner Management
                 </a>
+                <ul class="submenu collapse">
+                    <li>
+                        <a class="nav-link {{ Request::is('banner') ? 'active' : '' }}" href="{{ route('banner.index') }}">
+                            All Banners
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ route('banner.create') }}">
+                            Add Banners
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('category') ? 'active' : '' }}" aria-current="page" href="/dashboard">
