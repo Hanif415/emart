@@ -13,7 +13,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        return view('backend.banner.index');
+        return view('admin.banner.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class BannerController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.banner.create');
     }
 
     /**
