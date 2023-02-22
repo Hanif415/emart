@@ -27,8 +27,8 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('category') ? 'active' : '' }}" aria-current="page" href="/dashboard">
-                <span data-feather="hash" class="align-text-bottom"></span>
-                Category Management
+                    <span data-feather="hash" class="align-text-bottom"></span>
+                    Category Management
                 </a>
             </li>
             <li class="nav-item">

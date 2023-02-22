@@ -18,7 +18,9 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="/css/argon-dashboard.css" rel="stylesheet" />
+  <link id="pagestyle" href="{{ asset('/css/argon-dashboard.css') }}" rel="stylesheet" />
+  <!-- Custom css for sidebar -->
+  <link rel="stylesheet" href="{{ asset('/css/nav-collapse.css') }}">
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -44,6 +46,9 @@
   <script src="/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="/js/plugins/chartjs.min.js"></script>
+
+  <!-- Custom js for sidebar -->
+  <script src="/js/nav-collapse.js"></script>
 
   <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
@@ -142,7 +147,14 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/js/argon-dashboard.min.js?v=2.0.4"></script>
+
+  {{-- feather-icons --}}
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
   
+  <script>
+    feather.replace()
+  </script>
+
 </body>
 
 </html>

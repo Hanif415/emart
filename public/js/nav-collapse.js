@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 e.preventDefault();
                 let myCollapse = new bootstrap.Collapse(nextEl);
 
-                if(nextEl.classList.contains('show')){
+                if(nextEl.classList.contains('active')){
                     myCollapse.hide();
                 } else {
                     myCollapse.show();
