@@ -5,21 +5,22 @@
         <h1 class="h5 text-white">Add Banner</h1>
     </div>
     <div class="container bg-white p-3 rounded shadow-sm">
-        <form action="">
+        <form action="{{ route('banner.store') }}" method="post">
+            @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input name="title" type="text" class="form-control" id="title" placeholder="Title"
                     value="{{ old('title') }}" required>
             </div>
             <div class="mb-3">
-                <label for="photo" class="form-label">Photo</label>
+                <label for="thumbnail" class="form-label">Photo</label>
                 <div class="input-group">
                     <span class="input-group-btn">
                         <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
                             <i class="fa fa-picture-o"></i> Choose
                         </a>
                     </span>
-                    <input id="thumbnail" class="form-control" type="text" name="filepath" value="{{ old('filepath') }}">
+                    <input id="thumbnail" class="form-control" type="text" name="photo" value="{{ old('photo') }}">
                 </div>
                 <div id="holder" style="margin-top:15px;max-height:100px;"></div>
             </div>
