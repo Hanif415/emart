@@ -43,3 +43,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 // Banner Section
 Route::resource('banner', BannerController::class);
+
+// file manager
+// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//     \UniSharp\LaravelFilemanager\Lfm::routes();
+// });
