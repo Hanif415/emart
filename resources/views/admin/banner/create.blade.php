@@ -2,9 +2,16 @@
 
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h5 text-white">Add Banner</h1>
+        <h1 class="h5">Add Banner</h1>
     </div>
     <div class="container bg-white p-3 rounded shadow-sm">
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                <div class="alert alert-danger" role="alert">
+                    <p class="text-white">{{ $error }}</p>
+                </div>
+            @endforeach
+        @endif
         <form action="{{ route('banner.store') }}" method="post">
             @csrf
             <div class="mb-3">
@@ -27,7 +34,7 @@
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                    placeholder="Write some text..." value="{{ old('description') }}" required></textarea>
+                    placeholder="Write some text..." value="{{ old('description') }}"></textarea>
             </div>
             <label for="condition" class="form-label">Condition</label>
             <select name="condition" id="condition" class="form-select">
@@ -41,7 +48,7 @@
                 <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>
             </select>
             <button class="btn btn-primary mt-3">Submit</button>
-            <button class="btn btn-outline-light mt-3 text-dark">Cancel</button>
+            <a href="{{ route('banner.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
         </form>
     </div>
 @endsection
