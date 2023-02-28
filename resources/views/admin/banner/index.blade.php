@@ -22,8 +22,8 @@
         </thead>
         <tbody>
             @foreach ($banners as $banner)
-                <tr>
-                    <th scope="row">1</th>
+                <tr class="text-sm">
+                    <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $banner->title }}</td>
                     <td>{{ $banner->description }}</td>
                     <td>{{ $banner->photo }}</td>
