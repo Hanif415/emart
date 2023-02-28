@@ -15,7 +15,8 @@ class BannerController extends Controller
      */
     public function index()
     {
-        return view('admin.banner.index');
+        $banners = Banner::orderBy('id', 'DESC')->get();
+        return view('admin.banner.index', compact('banners'));
     }
 
     /**
@@ -55,9 +56,11 @@ class BannerController extends Controller
         $data['slug'] = $slug;
         $status = Banner::create($data);
         if ($status) {
-            return redirect()->route('banner.index')->with('success', 'Successfully created banner');
+            notify()->success('Successfully created banner');
+            return redirect()->route('banner.index')->with('success');
         } else {
-            return back()->with('error', 'Something went wrong');
+            notify()->error('Something went wrong');
+            return back()->with('error');
         }
     }
 

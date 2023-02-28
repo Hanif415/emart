@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "mckenziearts/laravel-notify": "^2.3",
         "pestphp/pest": "^1.16",
         "pestphp/pest-plugin-laravel": "^1.1",
         "unisharp/laravel-filemanager": "^2.5"
