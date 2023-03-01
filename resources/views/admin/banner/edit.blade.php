@@ -43,12 +43,7 @@
                 <option value="banner" {{ $banner->condition == 'banner' ? 'selected' : '' }}>Banner</option>
                 <option value="promo" {{ $banner->condition == 'promo' ? 'selected' : '' }}>Promo</option>
             </select>
-            <select name="status" id="status" class="form-select mt-3">
-                <option>--Status--</option>
-                <option value="active" {{ $banner->status == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ $banner->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            </select>
-            <button class="btn btn-primary mt-3">Submit</button>
+            <button class="btn btn-primary mt-3">Update</button>
             <a href="{{ route('banner.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
         </form>
     </div>

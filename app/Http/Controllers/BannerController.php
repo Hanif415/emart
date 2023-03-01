@@ -113,7 +113,36 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // validate data request
+        $this->validate($request, [
+            'title' => 'string|required',
+            'description' => 'string|nullable',
+            'photo' => 'required',
+            'condition' => 'nullable|in:banner,promo',
+            'status' => 'nullable|in:active,inactive',
+        ]);
+
+        $data = $request->all();
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+        // get the count of slug
+        $slug_count = Banner::where('slug', $slug)->count();
+        // if slug more then 8 then customize slug
+        if ($slug_count > 8) {
+            $slug = time() . '-' . $slug;
+        }
+        $data['slug'] = $slug;
+
+        $banner = Banner::find($id);
+
+        $status = $banner->fill($data)->save();
+        if ($status) {
+            notify()->success('Successfully updated banner');
+            return redirect()->route('banner.index')->with('success');
+        } else {
+            notify()->error('Something went wrong');
+            return back()->with('error');
+        }
     }
 
     /**

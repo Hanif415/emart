@@ -63,6 +63,9 @@
     {{-- summernote --}}
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
+    {{-- dashboard --}}
+    <script src="/js/dashboard.js"></script>
+
     @yield('js')
 
     <script>

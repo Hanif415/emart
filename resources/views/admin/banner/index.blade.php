@@ -4,7 +4,9 @@
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h5">Banner</h1>
     </div>
-    @include('admin.util.notification')
+
+    <x:notify-messages />
+
     <div class="d-flex justify-content-end">
         <a href="{{ route('banner.create') }}" class="btn btn-success">Create</a>
     </div>
@@ -43,8 +45,12 @@
                     <td>
                         <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-sm btn-warning"><span
                                 data-feather="edit"></span></a>
-                        <a href="{{ route('banner.destroy', $banner->id) }}" class="btn btn-sm btn-danger ms-1"><span
-                                data-feather="trash"></span></a>
+                        <form action="{{ route('banner.destroy', $banner->id) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <a class="btn btn-sm btn-danger ms-1 delete" data-id="{{ $item->id }}"><span
+                                    data-feather="trash"></span></a>
+                        </form>
                     </td>
                 </tr>
             @endforeach
@@ -76,6 +82,17 @@
                 }
             })
         })
+    </script>
+
+    {{-- delete data --}}
+    <script>
+        // configuration csrf token
+        $.ajaxSetup({
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content');
+        });
+        $('.delete').click(function(e) {
+
+        });
     </script>
 
     {{-- data table --}}
