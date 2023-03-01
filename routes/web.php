@@ -48,3 +48,5 @@ Route::resource('banner', BannerController::class);
 // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 //     \UniSharp\LaravelFilemanager\Lfm::routes();
 // });
+
+Route::post('banner_status', [BannerController::class, 'bannerStatus'])->name('banner.status');

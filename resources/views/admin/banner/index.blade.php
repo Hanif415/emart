@@ -8,33 +8,71 @@
     <div class="d-flex justify-content-end">
         <a href="{{ route('banner.create') }}" class="btn btn-success">Create</a>
     </div>
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th scope="col">S.N</th>
                 <th scope="col">Title</th>
-                <th scope="col">Description</th>
+                {{-- <th scope="col">Description</th> --}}
                 <th scope="col">Photo</th>
-                <th scope="col">Status</th>
                 <th scope="col">Condition</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($banners as $banner)
-                <tr class="text-sm">
+                <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $banner->title }}</td>
-                    <td>{{ $banner->description }}</td>
-                    <td>{{ $banner->photo }}</td>
-                    <td>{{ $banner->status }}</td>
-                    <td>{{ $banner->condition }}</td>
+                    {{-- <td>{!! $banner->description !!}</td> --}}
+                    <td><img src="{{ $banner->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td>
                     <td>
-                        <button class="btn btn-warning">Edit</button>
-                        <button class="btn btn-danger ms-1">Delete</button>
+                        @if ($banner->condition == 'banner')
+                            <span class="badge text-bg-warning">{{ $banner->condition }}</span>
+                        @else
+                            <span class="badge text-bg-primary">{{ $banner->condition }}</span>
+                        @endif
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" type="checkbox" role="switch" id="status"
+                                value="{{ $banner->id }}" {{ $banner->status == 'active' ? 'checked' : '' }}>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning"><span data-feather="edit"></span></button>
+                        <button class="btn btn-sm btn-danger ms-1"><span data-feather="trash"></span></button>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+@endsection
+
+@section('js')
+    {{-- update status using ajax --}}
+    <script>
+        $('input[name = status]').change(function() {
+            var checked = $(this).prop('checked');
+            var id = $(this).val();
+            // alert(id);
+            $.ajax({
+                url: "{{ route('banner.status') }}",
+                type: "POST",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    checked: checked,
+                    id: id,
+                },
+                success: function(response) {
+                    if (response.status) {
+                        alert(response.msg);
+                    } else {
+                        alert('something wrong');
+                    }
+                }
+            })
+        })
+    </script>
 @endsection
