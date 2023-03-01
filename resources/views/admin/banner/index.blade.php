@@ -41,8 +41,10 @@
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-warning"><span data-feather="edit"></span></button>
-                        <button class="btn btn-sm btn-danger ms-1"><span data-feather="trash"></span></button>
+                        <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-sm btn-warning"><span
+                                data-feather="edit"></span></a>
+                        <a href="{{ route('banner.destroy', $banner->id) }}" class="btn btn-sm btn-danger ms-1"><span
+                                data-feather="trash"></span></a>
                     </td>
                 </tr>
             @endforeach
