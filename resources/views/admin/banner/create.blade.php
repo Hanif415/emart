@@ -34,7 +34,7 @@
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                    placeholder="Write some text..." value="{{ old('description') }}"></textarea>
+                    placeholder="Write some text...">{{ old('description') }}</textarea>
             </div>
             <label for="condition" class="form-label">Condition</label>
             <select name="condition" id="condition" class="form-select">
