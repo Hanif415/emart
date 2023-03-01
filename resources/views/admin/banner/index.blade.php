@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-end">
         <a href="{{ route('banner.create') }}" class="btn btn-success">Create</a>
     </div>
-    <table class="table table-striped table-hover">
+    <table id="myTable" class=" display">
         <thead>
             <tr>
                 <th scope="col">S.N</th>
@@ -74,5 +74,12 @@
                 }
             })
         })
+    </script>
+
+    {{-- data table --}}
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
     </script>
 @endsection
