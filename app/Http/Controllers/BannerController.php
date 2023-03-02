@@ -153,6 +153,16 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $banner = Banner::find($id);
+        if ($banner) {
+            $status = $banner->delete();
+            if ($status) {
+                notify()->success('Successfully deleted banner');
+                return redirect()->route('banner.index');
+            }
+        } else {
+            notify()->error('Something wrong, data not found');
+            return back();
+        }
     }
 }

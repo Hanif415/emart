@@ -3,14 +3,15 @@
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h5">Banner</h1>
+        <a href="{{ route('banner.create') }}" class="btn btn-outline-success ms-3"><span data-feather="plus-circle"></span>
+            Create</a>
     </div>
 
     <x:notify-messages />
 
-    <div class="d-flex justify-content-end">
-        <a href="{{ route('banner.create') }}" class="btn btn-success">Create</a>
-    </div>
-    <table id="myTable" class=" display">
+    <p class="float-end mb-3">Total Banners : {{ \App\Models\Banner::count() }}</p>
+
+    <table id="myTable" class="display">
         <thead>
             <tr>
                 <th scope="col">S.N</th>
@@ -31,9 +32,9 @@
                     <td><img src="{{ $banner->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td>
                     <td>
                         @if ($banner->condition == 'banner')
-                            <span class="badge text-bg-warning">{{ $banner->condition }}</span>
+                            <span class="btn btn-success disabled">{{ $banner->condition }}</span>
                         @else
-                            <span class="badge text-bg-primary">{{ $banner->condition }}</span>
+                            <span class="btn btn-primary disabled">{{ $banner->condition }}</span>
                         @endif
                     </td>
                     <td>
@@ -43,12 +44,12 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-sm btn-warning"><span
-                                data-feather="edit"></span></a>
-                        <form action="{{ route('banner.destroy', $banner->id) }}" method="post">
+                        <a href="{{ route('banner.edit', $banner->id) }}"
+                            class="btn btn-sm btn-outline-warning float-start"><span data-feather="edit"></span></a>
+                        <form class="float-start" action="{{ route('banner.destroy', $banner->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <a class="btn btn-sm btn-danger ms-1 delete" data-id="{{ $item->id }}"><span
+                            <a class="float btn btn-sm btn-outline-danger ms-1 delete" data-id="{{ $banner->id }}"><span
                                     data-feather="trash"></span></a>
                         </form>
                     </td>
@@ -59,6 +60,9 @@
 @endsection
 
 @section('js')
+    {{-- Sweet Alert --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     {{-- update status using ajax --}}
     <script>
         $('input[name = status]').change(function() {
@@ -75,9 +79,9 @@
                 },
                 success: function(response) {
                     if (response.status) {
-                        alert(response.msg);
+                        swal("Data Updated", "Status updated", "success");
                     } else {
-                        alert('something wrong');
+                        swal("Something wrong");
                     }
                 }
             })
@@ -88,10 +92,28 @@
     <script>
         // configuration csrf token
         $.ajaxSetup({
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content');
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         });
         $('.delete').click(function(e) {
-
+            var form = $(this).closest('form');
+            var dataId = $(this).data('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                    // swal("Poof! Your imaginary file has been deleted!", {
+                    //     icon: "success",
+                    // });
+                } else {
+                    swal("Poof! Your imaginary file has been deleted!");
+                }
+            });
         });
     </script>
 
