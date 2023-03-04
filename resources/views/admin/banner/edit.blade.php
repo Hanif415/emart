@@ -49,7 +49,7 @@
     </div>
 @endsection
 
-@section('js')
+@section('scripts')
     {{-- file manager --}}
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
     <script>

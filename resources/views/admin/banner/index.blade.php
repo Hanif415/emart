@@ -44,8 +44,9 @@
                         </div>
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-outline-primary float-start me-1" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop"><span data-feather="eye"></span></a>
+                        <a class="btn btn-sm btn-outline-primary float-start me-1"
+                            onclick="show(`{{ $banner->title }}`, `{{ $banner->slug }}`, `{{ $banner->description }}`, `{{ $banner->photo }}`, `{{ $banner->status }}`, `{{ $banner->condition }}`)"><span
+                                data-feather="eye"></span></a>
                         <a href="{{ route('banner.edit', $banner->id) }}"
                             class="btn btn-sm btn-outline-warning float-start"><span data-feather="edit"></span></a>
                         <form class="float-start" action="{{ route('banner.destroy', $banner->id) }}" method="post">
@@ -61,16 +62,21 @@
     </table>
 
     {{-- Modal --}}
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $banner->title }}</h1>
+                    <h1 class="modal-title fs-5" id="label">Banner Detail</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="{{ $banner->photo }}" alt="banner image" style="max-width:275px; max-height:150px;">
+                    <img id="photo" src="" alt="banner image" style="max-width:275px; max-height:150px;">
+                    <p id="title">Title :</p>
+                    <p id="slug"></p>
+                    <p id="description"></p>
+                    <p id="stat"></p>
+                    <p id="condition"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -80,16 +86,20 @@
     </div>
 @endsection
 
-@section('js')
-    {{-- Modal --}}
-    {{-- <script>
-        $('#exampleModalCenter').on('show.bs.modal', function() {
-            $('myInput').trigger('focus');
-        })
-    </script> --}}
-
-    {{-- Sweet Alert --}}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@section('scripts')
+    {{-- Show Data --}}
+    <script>
+        let show = (title, slug, description, photo, status, condition) => {
+            $('#title').text('Title : ' + title)
+            $('#slug').text('slug : ' + slug)
+            $('#description').text('Description: ' + description)
+            $('#photo').attr("src", photo)
+            $('#stat').text('Status : ' + status)
+            $('#condition').text('Condition : ' + condition)
+            $('#modal').modal('show')
+        }
+    </script>
+    {{-- end show data --}}
 
     {{-- update status using ajax --}}
     <script>
