@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,12 +42,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', [AdminController::class, 'admin'])->name('admin');
 });
 
-// Banner Section
-Route::resource('banner', BannerController::class);
-
-// file manager
-// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-//     \UniSharp\LaravelFilemanager\Lfm::routes();
-// });
-
+// Banner
+Route::resource('/banner', BannerController::class);
 Route::post('banner_status', [BannerController::class, 'bannerStatus'])->name('banner.status');
+
+// Category
+Route::resource('/category', CategoryController::class);
+Route::post('category_status', [CategoryController::class, 'categoryStatus'])->name('category.status');

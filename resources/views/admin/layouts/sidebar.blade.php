@@ -15,7 +15,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('category') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                <a class="nav-link {{ Request::is('category') ? 'active' : '' }}" aria-current="page"
+                    href="{{ route('category.index') }}">
                     <span data-feather="hash" class="align-text-bottom"></span>
                     Category Management
                 </a>
@@ -39,7 +40,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('category') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                <a class="nav-link {{ Request::is('post-category') ? 'active' : '' }}" aria-current="page"
+                    href="/dashboard">
                     <span data-feather="hash" class="align-text-bottom"></span>
                     Post Category
                 </a>

@@ -2,57 +2,56 @@
 
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h5">Banner</h1>
-        <a href="{{ route('banner.create') }}" class="btn btn-outline-success ms-3"><span data-feather="plus-circle"></span>
+        <h1 class="h5">category</h1>
+        <a href="{{ route('category.create') }}" class="btn btn-outline-success ms-3"><span data-feather="plus-circle"></span>
             Create</a>
     </div>
 
     <x:notify-messages />
 
-    <p class="float-end mb-3">Total Banners : {{ \App\Models\Banner::count() }}</p>
+    <p class="float-end mb-3">Total categorys : {{ \App\Models\category::count() }}</p>
 
     <table id="myTable" class="display">
         <thead>
             <tr>
                 <th scope="col">S.N</th>
                 <th scope="col">Title</th>
-                {{-- <th scope="col">Description</th> --}}
                 <th scope="col">Photo</th>
-                <th scope="col">Condition</th>
+                <th scope="col">Is Parent</th>
+                <th scope="col">Parents</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($banners as $banner)
+            @foreach ($categories as $category)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $banner->title }}</td>
-                    {{-- <td>{!! $banner->description !!}</td> --}}
-                    <td><img src="{{ $banner->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td>
+                    <td>{{ $category->title }}</td>
+                    <td><img src="{{ $category->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td>
                     <td>
-                        @if ($banner->condition == 'banner')
-                            <span class="btn btn-success disabled">{{ $banner->condition }}</span>
+                        @if ($category->condition == 'category')
+                            <span class="btn btn-success disabled">{{ $category->condition }}</span>
                         @else
-                            <span class="btn btn-primary disabled">{{ $banner->condition }}</span>
+                            <span class="btn btn-primary disabled">{{ $category->condition }}</span>
                         @endif
                     </td>
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input" name="status" type="checkbox" role="switch" id="status"
-                                value="{{ $banner->id }}" {{ $banner->status == 'active' ? 'checked' : '' }}>
+                                value="{{ $category->id }}" {{ $category->status == 'active' ? 'checked' : '' }}>
                         </div>
                     </td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary float-start me-1"
-                            onclick="show(`{{ $banner->title }}`, `{{ $banner->slug }}`, `{{ $banner->description }}`, `{{ $banner->photo }}`, `{{ $banner->status }}`, `{{ $banner->condition }}`)"><span
+                            onclick="show(`{{ $category->title }}`, `{{ $category->slug }}`, `{{ $category->description }}`, `{{ $category->photo }}`, `{{ $category->status }}`, `{{ $category->condition }}`)"><span
                                 data-feather="eye"></span></a>
-                        <a href="{{ route('banner.edit', $banner->id) }}"
+                        <a href="{{ route('category.edit', $category->id) }}"
                             class="btn btn-sm btn-outline-warning float-start"><span data-feather="edit"></span></a>
-                        <form class="float-start" action="{{ route('banner.destroy', $banner->id) }}" method="post">
+                        <form class="float-start" action="{{ route('category.destroy', $category->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <a class="float btn btn-sm btn-outline-danger ms-1 delete" data-id="{{ $banner->id }}"><span
+                            <a class="float btn btn-sm btn-outline-danger ms-1 delete" data-id="{{ $category->id }}"><span
                                     data-feather="trash"></span></a>
                         </form>
                     </td>
@@ -67,11 +66,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="label">Banner Detail</h1>
+                    <h1 class="modal-title fs-5" id="label">category Detail</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img id="photo" src="" alt="banner image" style="max-width:275px; max-height:150px;">
+                    <img id="photo" src="" alt="category image" style="max-width:275px; max-height:150px;">
                     <p id="title">Title :</p>
                     <p id="slug"></p>
                     <p id="description"></p>
@@ -101,14 +100,14 @@
     </script>
     {{-- end show data --}}
 
-    {{-- update status --}}
+    {{-- update status using ajax --}}
     <script>
         $('input[name = status]').change(function() {
             var checked = $(this).prop('checked');
             var id = $(this).val();
             // alert(id);
             $.ajax({
-                url: "{{ route('banner.status') }}",
+                url: "{{ route('category.status') }}",
                 type: "POST",
                 data: {
                     _token: '{{ csrf_token() }}',

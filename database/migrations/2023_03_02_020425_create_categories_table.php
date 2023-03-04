@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->string('photo')->nullable();
+            $table->string('is_parent')->default(true);
+            $table->mediumText('summary')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable()->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('SET NULL');
             $table->timestamps();
         });
     }
