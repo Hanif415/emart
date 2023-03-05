@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -41,6 +43,13 @@ class CategoryController extends Controller
 
     public function categoryStatus(Request $request)
     {
+        if ($request->checked == 'true') {
+            DB::table('categories')->where('id', $request->id)->update(['status' => 'active']);
+        } else {
+            DB::table('categories')->where('id', $request->id)->update(['status' => 'inactive']);
+        }
+
+        return response()->json(['msg' => 'Status Updated', 'status' => true]);
     }
 
     /**
@@ -85,6 +94,16 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        if ($category) {
+            $status = $category->delete();
+            if ($status) {
+                notify()->success('Successfully deleted banner');
+                return redirect()->route('category.index');
+            }
+        } else {
+            notify()->error('Something wrong, data not found');
+            return back();
+        }
     }
 }

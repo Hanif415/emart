@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h5">Banner</h1>
-        <a href="{{ route('banner.create') }}" class="btn btn-outline-success ms-3"><span data-feather="plus-circle"></span>
-            Create</a>
+        <h1 class="h5">Banner Management</h1>
+        <a href="{{ route('banner.create') }}" class="btn btn-success ms-3"><i class="bi bi-plus-circle"></i>
+            Add Banner</a>
     </div>
 
     <x:notify-messages />
@@ -17,7 +17,7 @@
                 <th scope="col">S.N</th>
                 <th scope="col">Title</th>
                 {{-- <th scope="col">Description</th> --}}
-                <th scope="col">Photo</th>
+                {{-- <th scope="col">Photo</th> --}}
                 <th scope="col">Condition</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
@@ -29,7 +29,7 @@
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $banner->title }}</td>
                     {{-- <td>{!! $banner->description !!}</td> --}}
-                    <td><img src="{{ $banner->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td>
+                    {{-- <td><img src="{{ $banner->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td> --}}
                     <td>
                         @if ($banner->condition == 'banner')
                             <span class="btn btn-success disabled">{{ $banner->condition }}</span>
@@ -44,15 +44,15 @@
                         </div>
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-outline-primary float-start me-1"
+                        <a class="btn btn-sm btn-primary float-start me-1"
                             onclick="show(`{{ $banner->title }}`, `{{ $banner->slug }}`, `{{ $banner->description }}`, `{{ $banner->photo }}`, `{{ $banner->status }}`, `{{ $banner->condition }}`)"><span
                                 data-feather="eye"></span></a>
-                        <a href="{{ route('banner.edit', $banner->id) }}"
-                            class="btn btn-sm btn-outline-warning float-start"><span data-feather="edit"></span></a>
+                        <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-sm btn-warning float-start"><span
+                                data-feather="edit"></span></a>
                         <form class="float-start" action="{{ route('banner.destroy', $banner->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <a class="float btn btn-sm btn-outline-danger ms-1 delete" data-id="{{ $banner->id }}"><span
+                            <a class="float btn btn-sm btn-danger ms-1 delete" data-id="{{ $banner->id }}"><span
                                     data-feather="trash"></span></a>
                         </form>
                     </td>

@@ -2,21 +2,21 @@
 
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h5">category</h1>
-        <a href="{{ route('category.create') }}" class="btn btn-outline-success ms-3"><span data-feather="plus-circle"></span>
-            Create</a>
+        <h1 class="h5">Category Management</h1>
+        <a href="{{ route('category.create') }}" class="btn btn-success ms-3"><i class="bi bi-plus-circle"></i>
+            Add Category</a>
     </div>
 
     <x:notify-messages />
 
-    <p class="float-end mb-3">Total categorys : {{ \App\Models\category::count() }}</p>
+    <p class="float-end mb-3">Total categories : {{ \App\Models\category::count() }}</p>
 
     <table id="myTable" class="display">
         <thead>
             <tr>
                 <th scope="col">S.N</th>
                 <th scope="col">Title</th>
-                <th scope="col">Photo</th>
+                {{-- <th scope="col">Photo</th> --}}
                 <th scope="col">Is Parent</th>
                 <th scope="col">Parents</th>
                 <th scope="col">Status</th>
@@ -28,14 +28,9 @@
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $category->title }}</td>
-                    <td><img src="{{ $category->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td>
-                    <td>
-                        @if ($category->condition == 'category')
-                            <span class="btn btn-success disabled">{{ $category->condition }}</span>
-                        @else
-                            <span class="btn btn-primary disabled">{{ $category->condition }}</span>
-                        @endif
-                    </td>
+                    {{-- <td><img src="{{ $category->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td> --}}
+                    <td>{{ $category->is_parent == 1 ? 'Yes' : 'No' }}</td>
+                    <td>{{ $category->parent_id }}</td>
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input" name="status" type="checkbox" role="switch" id="status"
@@ -43,15 +38,15 @@
                         </div>
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-outline-primary float-start me-1"
-                            onclick="show(`{{ $category->title }}`, `{{ $category->slug }}`, `{{ $category->description }}`, `{{ $category->photo }}`, `{{ $category->status }}`, `{{ $category->condition }}`)"><span
+                        <a class="btn btn-sm btn-primary float-start me-1"
+                            onclick="show(`{{ $category->title }}`, `{{ $category->photo }}`, `{{ $category->is_parent }}`, `{{ $category->parent_id }}`, `{{ $category->status }}`, `{{ $category->slug }}`, `{{ $category->summary }}`)"><span
                                 data-feather="eye"></span></a>
                         <a href="{{ route('category.edit', $category->id) }}"
-                            class="btn btn-sm btn-outline-warning float-start"><span data-feather="edit"></span></a>
+                            class="btn btn-sm btn-warning float-start"><span data-feather="edit"></span></a>
                         <form class="float-start" action="{{ route('category.destroy', $category->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <a class="float btn btn-sm btn-outline-danger ms-1 delete" data-id="{{ $category->id }}"><span
+                            <a class="float btn btn-sm btn-danger ms-1 delete" data-id="{{ $category->id }}"><span
                                     data-feather="trash"></span></a>
                         </form>
                     </td>
@@ -66,16 +61,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="label">category Detail</h1>
+                    <h1 class="modal-title fs-5" id="label">Category Detail</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <img id="photo" src="" alt="category image" style="max-width:275px; max-height:150px;">
-                    <p id="title">Title :</p>
+                    <p id="title"></p>
                     <p id="slug"></p>
-                    <p id="description"></p>
+                    <p id="summary"></p>
+                    <p id="is-parent"></p>
+                    <p id="parent"></p>
                     <p id="stat"></p>
-                    <p id="condition"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -88,13 +84,14 @@
 @section('scripts')
     {{-- Show Data --}}
     <script>
-        let show = (title, slug, description, photo, status, condition) => {
+        let show = (title, photo, is_parent, parent, status, slug, summary) => {
             $('#title').text('Title : ' + title)
-            $('#slug').text('slug : ' + slug)
-            $('#description').text('Description: ' + description)
+            $('#slug').text('l; : ' + slug)
+            $('#summary').text('Summary : ' + summary)
+            $('#is-parent').text('Is parent : ' + is_parent)
+            $('#parent').text('Parent: ' + parent)
             $('#photo').attr("src", photo)
             $('#stat').text('Status : ' + status)
-            $('#condition').text('Condition : ' + condition)
             $('#modal').modal('show')
         }
     </script>
