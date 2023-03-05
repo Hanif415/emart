@@ -71,8 +71,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img id="photo" src="" alt="banner image" style="max-width:275px; max-height:150px;">
-                    <p id="title">Title :</p>
+                    <img id="photo" src="" alt="banner image" class="mb-3"
+                        style="max-width:275px; max-height:150px;">
+                    <p id="title"></p>
                     <p id="slug"></p>
                     <p id="description"></p>
                     <p id="stat"></p>
@@ -91,7 +92,7 @@
     <script>
         let show = (title, slug, description, photo, status, condition) => {
             $('#title').text('Title : ' + title)
-            $('#slug').text('slug : ' + slug)
+            $('#slug').text('Slug : ' + slug)
             $('#description').text('Description: ' + description)
             $('#photo').attr("src", photo)
             $('#stat').text('Status : ' + status)
