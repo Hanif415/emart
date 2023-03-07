@@ -36,12 +36,25 @@
                 <textarea name="summary" id="summary" class="form-control" cols="30" rows="10"
                     placeholder="Write some text...">{{ old('summary') }}</textarea>
             </div>
-            <label for="condition" class="form-label">Condition</label>
-            <select name="status" id="status" class="form-select mt-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" id="status" class="form-select">
                 <option>--Status--</option>
                 <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                 <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>
             </select>
+            <div class="form-check mt-3">
+                <input id="is_parent" class="form-check-input" type="checkbox" name="is_parent">
+                <label class="form-check-label" for="is_parent">Is Parent</label>
+            </div>
+            <div id="parent-category" class="mt-3 d-none">
+                <label for="parent-category" class="form-label">Parent Category</label>
+                <select name="parent_id" class="form-select">
+                    <option value="">--Parent Category--</option>
+                    @foreach ($parent_categories as $parent_category)
+                        <option value="{{ $parent_category->id }}">{{ $parent_category->title }}</option>
+                    @endforeach
+                </select>
+            </div>
             <button class="btn btn-primary mt-3">Submit</button>
             <a href="{{ route('category.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
         </form>
@@ -60,5 +73,23 @@
         $(document).ready(function() {
             $('#summary').summernote();
         });
+    </script>
+
+    {{-- parent category hide --}}
+    <script>
+        $('#is_parent').change(function(e) {
+            e.preventDefault();
+            var isChecked = $('#is_parent').prop('checked');
+            if (isChecked) {
+                $('#parent-category').addClass('d-none');
+                $('#parent-category').val('');
+            } else {
+                $('#parent-category').removeClass('d-none');
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById("is_parent").indeterminate = true;
     </script>
 @endsection

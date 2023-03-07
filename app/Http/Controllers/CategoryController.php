@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $parent_categories = Category::where('is_parent', 1)->orderBy('title', 'asc')->get();
+        return view('admin.categories.create', compact('parent_categories'));
     }
 
     /**
@@ -38,7 +40,32 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'string|required',
+            'summary' => 'string|nullable',
+            'is_parent' => 'sometimes|in:on',
+            'parent_id' => 'nullable',
+            'status' => 'nullable|in:active, inactive'
+        ]);
+
+        $data = $request->all();
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+        // get the count of slug
+        $slug_count = Category::where('slug', $slug)->count();
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
+            $slug = time() . '-' . $slug;
+        }
+        $data['slug'] = $slug;
+        $status = Category::create($data);
+        if ($status) {
+            notify()->success('Successfully created category');
+            return redirect()->route('category.index')->with('success');
+        } else {
+            notify()->error('Something went wrong');
+            return back()->with('error');
+        }
     }
 
     public function categoryStatus(Request $request)

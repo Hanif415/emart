@@ -50,8 +50,8 @@ class BannerController extends Controller
         $slug = Str::slug($request->input('title'));
         // get the count of slug
         $slug_count = Banner::where('slug', $slug)->count();
-        // if slug more then 8 then customize slug
-        if ($slug_count > 8) {
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
             $slug = time() . '-' . $slug;
         }
         $data['slug'] = $slug;

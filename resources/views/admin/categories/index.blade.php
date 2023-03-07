@@ -30,7 +30,7 @@
                     <td>{{ $category->title }}</td>
                     {{-- <td><img src="{{ $category->photo }}" alt="benner image" style="max-height:98px; max-width:128px;"></td> --}}
                     <td>{{ $category->is_parent == 1 ? 'Yes' : 'No' }}</td>
-                    <td>{{ $category->parent_id }}</td>
+                    <td>{{ \App\Models\category::where('id', $category->parent_id)->value('title') }}</td>
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input" name="status" type="checkbox" role="switch" id="status"
@@ -86,7 +86,7 @@
     <script>
         let show = (title, photo, is_parent, parent, status, slug, summary) => {
             $('#title').text('Title : ' + title)
-            $('#slug').text('l; : ' + slug)
+            $('#slug').text('Slug : ' + slug)
             $('#summary').text('Summary : ' + summary)
             $('#is-parent').text('Is parent : ' + is_parent)
             $('#parent').text('Parent: ' + parent)
