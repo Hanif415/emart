@@ -43,10 +43,10 @@
                 <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>
             </select>
             <div class="form-check mt-3">
-                <input id="is_parent" class="form-check-input" type="checkbox" name="is_parent">
+                <input id="is_parent" class="form-check-input" type="checkbox" name="is_parent" value="1">
                 <label class="form-check-label" for="is_parent">Is Parent</label>
             </div>
-            <div id="parent-category" class="mt-3 d-none">
+            <div id="parent-category" class="mt-3">
                 <label for="parent-category" class="form-label">Parent Category</label>
                 <select name="parent_id" class="form-select">
                     <option value="">--Parent Category--</option>
@@ -76,6 +76,16 @@
     </script>
 
     {{-- parent category hide --}}
+    {{-- <script>
+        $(document).ready(function() {
+            var isChecked = $('#is_parent').prop('checked');
+            if (isChecked) {
+                $('#parent-category').addClass('d-none');
+            } else {
+                $('#parent-category').removeClass('d-none');
+            }
+        });
+    </script> --}}
     <script>
         $('#is_parent').change(function(e) {
             e.preventDefault();
@@ -89,7 +99,8 @@
         });
     </script>
 
-    <script>
+    {{-- terminated checkbox --}}
+    {{-- <script>
         document.getElementById("is_parent").indeterminate = true;
-    </script>
+    </script> --}}
 @endsection

@@ -43,12 +43,15 @@ class CategoryController extends Controller
         $this->validate($request, [
             'title' => 'string|required',
             'summary' => 'string|nullable',
-            'is_parent' => 'sometimes|in:on',
+            'is_parent' => 'sometimes|in:1',
             'parent_id' => 'nullable',
-            'status' => 'nullable|in:active, inactive'
+            'status' => 'nullable|in:active,inactive'
         ]);
 
         $data = $request->all();
+        // get is parent data separated
+        $data['is_parent'] = $request->input('is_parent', 0);
+
         // create a slug from title
         $slug = Str::slug($request->input('title'));
         // get the count of slug
@@ -98,7 +101,15 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        $parent_categories = Category::where('is_parent', 1)->orderBy('title', 'asc')->get();
+
+        if ($category) {
+            return view('admin.categories.edit', compact(['category', 'parent_categories']));
+        } else {
+            notify()->error('Something went wrong');
+            return back();
+        }
     }
 
     /**
@@ -110,7 +121,41 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'string|required',
+            'summary' => 'string|nullable',
+            'is_parent' => 'sometimes|in:1,0',
+            'parent_id' => 'nullable',
+            'status' => 'nullable|in:active,inactive'
+        ]);
+
+        $data = $request->all();
+        // get is parent data separated
+        $data['is_parent'] = $request->input('is_parent', 0);
+        // set parent id to null if its parent
+        if ($data['is_parent'] == 1) {
+            $data['parent_id'] = null;
+        }
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+        // get the count of slug
+        $slug_count = Category::where('slug', $slug)->count();
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
+            $slug = time() . '-' . $slug;
+        }
+        $data['slug'] = $slug;
+
+        $category = Category::find($id);
+        $status = $category->fill($data)->save();
+
+        if ($status) {
+            notify()->success('Successfully edited category');
+            return redirect()->route('category.index')->with('success');
+        } else {
+            notify()->error('Something went wrong');
+            return back()->with('error');
+        }
     }
 
     /**

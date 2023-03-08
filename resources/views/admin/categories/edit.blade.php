@@ -33,16 +33,34 @@
                 <div id="holder" style="margin-top:15px;max-height:100px;"></div>
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                    placeholder="Write some text...">{{ $category->description }}</textarea>
+                <label for="summary" class="form-label">Summary</label>
+                <textarea name="summary" id="summary" class="form-control" cols="30" rows="10"
+                    placeholder="Write some text...">{{ $category->summary }}</textarea>
             </div>
-            <label for="condition" class="form-label">Condition</label>
-            <select name="condition" id="condition" class="form-select">
-                <option>--Condition--</option>
-                <option value="category" {{ $category->condition == 'category' ? 'selected' : '' }}>category</option>
-                <option value="promo" {{ $category->condition == 'promo' ? 'selected' : '' }}>Promo</option>
+            <label for="status" class="form-label">Status</label>
+            <select name="status" id="status" class="form-select">
+                <option>--Status--</option>
+                <option value="active" {{ $category->status == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="inactive" {{ $category->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
             </select>
+            <div class="form-check mt-3">
+                <input id="is_parent" class="form-check-input" type="checkbox" name="is_parent" value="1"
+                    {{ $category->is_parent == 1 ? 'checked' : '' }}>
+                <label class="form-check-label" for="is_parent">Is Parent</label>
+            </div>
+            <div id="parent-category" class="mt-3 {{ $category->is_parent == 1 ? 'd-none' : '' }}">
+                <label for="parent-category" class="form-label">Parent Category</label>
+                <select name="parent_id" class="form-select">
+                    {{-- <option value="{{ $category->parent_id }}">
+                        {{ App\Models\Category::where('id', $category->parent_id)->value('title') }}</option> --}}
+                    {{-- <option value="">--Parent Category--</option> --}}
+                    @foreach ($parent_categories as $parent_category)
+                        <option value="{{ $parent_category->id }}"
+                            {{ $parent_category->id == $category->parent_id ? 'selected' : '' }}>
+                            {{ $parent_category->title }}</option>
+                    @endforeach
+                </select>
+            </div>
             <button class="btn btn-primary mt-3">Update</button>
             <a href="{{ route('category.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
         </form>
@@ -50,6 +68,20 @@
 @endsection
 
 @section('scripts')
+    {{-- parent category hide --}}
+    <script>
+        $('#is_parent').change(function(e) {
+            e.preventDefault();
+            var isChecked = $('#is_parent').prop('checked');
+            if (isChecked) {
+                $('#parent-category').addClass('d-none');
+                $('#parent-category').val('');
+            } else {
+                $('#parent-category').removeClass('d-none');
+            }
+        });
+    </script>
+
     {{-- file manager --}}
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
     <script>
@@ -59,7 +91,7 @@
     {{-- summernote --}}
     <script>
         $(document).ready(function() {
-            $('#description').summernote();
+            $('#summary').summernote();
         });
     </script>
 @endsection
