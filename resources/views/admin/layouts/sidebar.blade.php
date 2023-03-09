@@ -28,6 +28,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ Request::is('brand') ? 'active' : '' }}" aria-current="page"
+                    href="{{ route('brand.index') }}">
+                    <i class="bi bi-handbag"></i>
+                    Brand
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ Request::is('carts') ? 'active' : '' }}" aria-current="page" href="/dashboard">
                     <i class="bi bi-cart"></i>
                     Carts
