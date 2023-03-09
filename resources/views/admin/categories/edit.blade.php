@@ -37,12 +37,6 @@
                 <textarea name="summary" id="summary" class="form-control" cols="30" rows="10"
                     placeholder="Write some text...">{{ $category->summary }}</textarea>
             </div>
-            <label for="status" class="form-label">Status</label>
-            <select name="status" id="status" class="form-select">
-                <option>--Status--</option>
-                <option value="active" {{ $category->status == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ $category->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            </select>
             <div class="form-check mt-3">
                 <input id="is_parent" class="form-check-input" type="checkbox" name="is_parent" value="1"
                     {{ $category->is_parent == 1 ? 'checked' : '' }}>
