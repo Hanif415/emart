@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +27,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.brand.create');
     }
 
     /**
@@ -37,7 +38,36 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'nullable',
+            'photo' => 'required',
+            'status' => 'nullable|in:active,inactive',
+        ]);
+
+        $data = $request->all();
+
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+
+        // get the count of slug
+        $slug_count = Brand::where('slug', $slug)->count();
+
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
+            $slug = time() . '-' . $slug;
+        }
+
+        $data['slug'] = $slug;
+
+        $status = Brand::create($data);
+
+        if ($status) {
+            notify()->success('Successfully created brand');
+            return redirect()->route('brand.index');
+        } else {
+            notify()->error('Something went wrong');
+            return back();
+        }
     }
 
     public function brandStatus(Request $request)
@@ -70,7 +100,13 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand) {
+            return view('admin.brand.edit', compact('brand'));
+        } else {
+            notify()->error('Something wrong, data not found');
+            return back();
+        }
     }
 
     /**
@@ -82,7 +118,38 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // validate data request
+        $this->validate($request, [
+            'title' => 'nullable',
+            'photo' => 'required',
+        ]);
+
+        $data = $request->all();
+
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+
+        // get the count of slug
+        $slug_count = Brand::where('slug', $slug)->count();
+
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
+            $slug = time() . '-' . $slug;
+        }
+
+        $data['slug'] = $slug;
+
+        $brand = Brand::find($id);
+
+        $status = $brand->fill($data)->save();
+
+        if ($status) {
+            notify()->success('Successfully updated brand');
+            return redirect()->route('brand.index')->with('success');
+        } else {
+            notify()->error('Something went wrong');
+            return back()->with('error');
+        }
     }
 
     /**
@@ -93,6 +160,16 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand) {
+            $status = $brand->delete();
+            if ($status) {
+                notify()->success('Successfully deleted brand');
+                return redirect()->route('brand.index');
+            }
+        } else {
+            notify()->error('Something wrong, data not found');
+            return back();
+        }
     }
 }

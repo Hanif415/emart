@@ -132,21 +132,27 @@ class CategoryController extends Controller
             ]);
 
             $data = $request->all();
+
             // get is parent data separated
             $data['is_parent'] = $request->input('is_parent', 0);
+
             // set parent id to null if its parent
             if ($data['is_parent'] == 1) {
                 $data['parent_id'] = null;
             }
+
             // create a slug from title
-            // $slug = Str::slug($request->input('title'));
-            // // get the count of slug
-            // $slug_count = Category::where('slug', $slug)->count();
-            // // if slug more then 0 then customize slug
-            // if ($slug_count > 0) {
-            //     $slug = time() . '-' . $slug;
-            // }
-            // $data['slug'] = $slug;
+            $slug = Str::slug($request->input('title'));
+
+            // get the count of slug
+            $slug_count = Category::where('slug', $slug)->count();
+
+            // if slug more then 0 then customize slug
+            if ($slug_count > 0) {
+                $slug = time() . '-' . $slug;
+            }
+
+            $data['slug'] = $slug;
 
             $status = $category->fill($data)->save();
 
