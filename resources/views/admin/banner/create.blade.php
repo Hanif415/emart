@@ -42,7 +42,8 @@
                 <option value="banner" {{ old('condition') == 'banner' ? 'selected' : '' }}>Banner</option>
                 <option value="promo" {{ old('condition' == 'promo' ? 'selected' : '') }}>Promo</option>
             </select>
-            <select name="status" id="status" class="form-select mt-3">
+            <label for="status" class="form-label mt-3">Status</label>
+            <select name="status" id="status" class="form-select">
                 <option>--Status--</option>
                 <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                 <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>

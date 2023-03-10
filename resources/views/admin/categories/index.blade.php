@@ -66,12 +66,24 @@
                 </div>
                 <div class="modal-body">
                     <img id="photo" src="" alt="category image" style="max-width:275px; max-height:150px;">
-                    <p id="title"></p>
-                    <p id="slug"></p>
-                    <p id="summary"></p>
-                    <p id="is-parent"></p>
-                    <p id="parent"></p>
-                    <p id="stat"></p>
+                    <p>
+                        <b>Title :</b> <span id="title"></span>
+                    </p>
+                    <p>
+                        <b>Slug :</b> <span id="slug"></span>
+                    </p>
+                    <p>
+                        <b>Summary :</b> <span id="summary"></span>
+                    </p>
+                    <p>
+                        <b>Is Parent :</b> <span id="is-parent"></span>
+                    </p>
+                    <p>
+                        <b>Parent :</b> <span id="parent"></span>
+                    </p>
+                    <p>
+                        <b>Status :</b> <span id="stat"></span>
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -85,13 +97,13 @@
     {{-- Show Data --}}
     <script>
         let show = (title, photo, is_parent, parent, status, slug, summary) => {
-            $('#title').text('Title : ' + title)
-            $('#slug').text('Slug : ' + slug)
-            $('#summary').text('Summary : ' + summary)
-            $('#is-parent').text('Is parent : ' + is_parent)
-            $('#parent').text('Parent: ' + parent)
+            $('#title').text(title)
+            $('#slug').text(slug)
+            $('#summary').text(summary)
+            $('#is-parent').text(is_parent)
+            $('#parent').text(parent)
             $('#photo').attr("src", photo)
-            $('#stat').text('Status : ' + status)
+            $('#stat').text(status)
             $('#modal').modal('show')
         }
     </script>
