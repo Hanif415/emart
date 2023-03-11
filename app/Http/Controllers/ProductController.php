@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -13,7 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::orderBy('id', 'DESC')->get();
+        return view('admin.product.index', compact('products'));
     }
 
     /**
@@ -23,7 +26,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product.create');
     }
 
     /**
@@ -35,6 +38,17 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function productStatus(Request $request)
+    {
+        if ($request->checked == 'true') {
+            DB::table('products')->where('id', $request->id)->update(['status' => 'active']);
+        } else {
+            DB::table('products')->where('id', $request->id)->update(['status' => 'inactive']);
+        }
+
+        return response()->json(['msg' => 'Status updated', 'status' => true]);
     }
 
     /**

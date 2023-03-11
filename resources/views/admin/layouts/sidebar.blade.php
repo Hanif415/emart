@@ -22,7 +22,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('product') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                <a class="nav-link {{ Request::is('product') ? 'active' : '' }}" aria-current="page"
+                    href="{{ route('product.index') }}">
                     <i class="bi bi-briefcase"></i>
                     Product
                 </a>
