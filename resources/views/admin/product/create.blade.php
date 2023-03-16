@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h5">Add Banner</h1>
+        <h1 class="h5">Add Product</h1>
     </div>
     <div class="container bg-white p-3 rounded shadow-sm">
         @if ($errors->any())
@@ -12,12 +12,24 @@
                 </div>
             @endforeach
         @endif
-        <form action="{{ route('banner.store') }}" method="post">
+        <form action="{{ route('product.store') }}" method="post">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input name="title" type="text" class="form-control" id="title" placeholder="Title"
                     value="{{ old('title') }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="thumbnail" class="form-label">Photo</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                            <i class="fa fa-picture-o"></i> Choose
+                        </a>
+                    </span>
+                    <input id="thumbnail" class="form-control" type="text" name="photo" value="{{ old('photo') }}">
+                </div>
+                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
             </div>
             <div class="mb-3">
                 <label for="summary" class="form-label">Summary</label>
@@ -30,7 +42,7 @@
             </div>
             <div class="mb-3">
                 <label for="brand" class="form-label">Brand</label>
-                <select name="brand" id="brand" class="form-select">
+                <select name="brand_id" id="brand" class="form-select">
                     <option value="">--Brand--</option>
                     @foreach (App\Models\Brand::get() as $brand)
                         <option value="{{ $brand->id }}">{{ $brand->title }}</option>
@@ -48,7 +60,7 @@
             </div>
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
-                <select name="category" id="category" class="form-select">
+                <select name="category_id" id="category" class="form-select">
                     <option value="">--Category--</option>
                     @foreach (App\Models\Category::where('is_parent', 1)->get() as $category)
                         <option value="{{ $category->id }}">{{ $category->title }}</option>
@@ -56,9 +68,8 @@
                 </select>
             </div>
             <div class="mb-3 d-none" id="child_category_div">
-                <label for="child_category" class="form-label">Child Category</label>
+                <label for="child_category_id" class="form-label">Child Category</label>
                 <select name="child_category" id="child_category" class="form-select">
-                    <option value="">--Child Category--</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -73,8 +84,8 @@
             </div>
             <div class="mb-3">
                 <label for="discount" class="form-label">Discount</label>
-                <input type="number" name="discount" id="discount" class="form-control" value="{{ old('discount') }}"
-                    step="any" placeholder="Discount">
+                <input type="number" name="discount" id="discount" class="form-control" placeholder="discount"
+                    value="{{ old('discount') }}" step="any" placeholder="discount">
             </div>
             <div class="mb-3">
                 <label for="size" class="form-label">Size</label>
@@ -86,31 +97,22 @@
                     <option value="XL" {{ old('size') == 'XL' ? 'selected' : '' }}>Extra Large</option>
                 </select>
             </div>
-            <label for="conditions" class="form-label">Condition</label>
-            <select name="conditions" id="conditions" class="form-select">
-                <option>--Condition--</option>
-                <option value="new" {{ old('conditions') == 'new' ? 'selected' : '' }}>New</option>
-                <option value="popular" {{ old('conditions' == 'popular' ? 'selected' : '') }}>Popular</option>
-                <option value="winter" {{ old('conditions' == 'winter' ? 'selected' : '') }}>Winter</option>
-            </select>
-            <label for="status" class="form-label mt-3">Status</label>
-            <select name="status" id="status" class="form-select">
-                <option>--Status--</option>
-                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>
-            </select>
             <div class="mb-3">
-                <label for="thumbnail" class="form-label">Photo</label>
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                            <i class="fa fa-picture-o"></i> Choose
-                        </a>
-                    </span>
-                    <input id="thumbnail" class="form-control" type="text" name="photo"
-                        value="{{ old('photo') }}">
-                </div>
-                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+                <label for="conditions" class="form-label">Condition</label>
+                <select name="conditions" id="conditions" class="form-select">
+                    <option>--Condition--</option>
+                    <option value="new" {{ old('conditions') == 'new' ? 'selected' : '' }}>New</option>
+                    <option value="popular" {{ old('conditions' == 'popular' ? 'selected' : '') }}>Popular</option>
+                    <option value="winter" {{ old('conditions' == 'winter' ? 'selected' : '') }}>Winter</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" class="form-select">
+                    <option>--Status--</option>
+                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>
+                </select>
             </div>
             <button class="btn btn-primary mt-3">Submit</button>
             <a href="{{ route('banner.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
@@ -134,7 +136,17 @@
                         category_id: category_id
                     },
                     success: function(response) {
-                        console.log(response);
+                        var html_option = "<option value=''>---Child Category---</option>"
+                        if (response.status) {
+                            $('#child_category_div').removeClass('d-none');
+                            $.each(response.data, function(id, title) {
+                                html_option += "<option value='" + id + "'>" + title +
+                                    "</option>"
+                            });
+                        } else {
+                            $('#child_category_div').addClass('d-none');
+                        }
+                        $('#child_category').html(html_option);
                     }
                 })
             }

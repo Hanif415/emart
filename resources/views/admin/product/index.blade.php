@@ -58,7 +58,7 @@
                             <?php
                             $brand = \App\Models\Brand::find($product->brand_id);
                             $category = \App\Models\Category::find($product->category_id);
-                            $child_category = \App\Models\Category::find($product->child_category_id);
+                            // $child_category = \App\Models\Category::find($product->child_category_id);
                             $vendor = \App\Models\User::find($product->vendor_id);
                             $price = number_format($product->price, 2);
                             $offer_price = number_format($product->offer_price, 2);
@@ -67,7 +67,7 @@
                         </div>
 
                         <a class="btn btn-sm btn-primary float-start me-1"
-                            onclick="show(`{{ $product->title }}`, `{{ $product->slug }}`, `{{ $product->summary }}`, `{{ $product->description }}`, `{{ $product->stock }}`, `{{ $brand->title }}`, `{{ $category->title }}`, `{{ $child_category->title }}`, `{{ $product->photo }}`, `${{ $price }}`, `${{ $offer_price }}`, `${{ $discount }}`, `{{ $product->size }}`, `{{ $product->conditions }}`, `{{ $vendor->full_name }}`, `{{ $product->status }}`,)"><span
+                            onclick="show(`{{ $product->title }}`, `{{ $product->slug }}`, `{{ $product->summary }}`, `{{ $product->description }}`, `{{ $product->stock }}`, `{{ $brand->title }}`, `{{ $category->title }}`, `{{ $product->child_category_id }}`, `{{ $product->photo }}`, `${{ $price }}`, `${{ $offer_price }}`, `${{ $discount }}`, `{{ $product->size }}`, `{{ $product->conditions }}`, `{{ $vendor->full_name }}`, `{{ $product->status }}`,)"><span
                                 data-feather="eye"></span></a>
                         <a href="{{ route('product.edit', $product->id) }}"
                             class="btn btn-sm btn-warning float-start"><span data-feather="edit"></span></a>

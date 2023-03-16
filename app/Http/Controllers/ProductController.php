@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,7 +38,41 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'string|required',
+            'summary' => 'string|required',
+            'description' => 'string|required',
+            'stock' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
+            'discount' => 'nullable|numeric',
+            'photo' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'child_category_id' => 'nullable|exists:categories,id',
+            'size' => 'nullable',
+            'conditions' => 'nullable',
+            'status' => 'nullable|in:active, inactive',
+        ]);
+
+        $data = $request->all();
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+        // get the count of slug
+        $slug_count = Product::where('slug', $slug)->count();
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
+            $slug = time() . '-' . $slug;
+        }
+        $data['slug'] = $slug;
+        $data['offer_price'] = $request->price - ($request->price * $request->discount) / 100;
+
+        $status = Product::create($data);
+        if ($status) {
+            notify()->success('Successfully created product');
+            return redirect()->route('product.index')->with('success');
+        } else {
+            notify()->error('Something went wrong');
+            return back()->with('error');
+        }
     }
 
     public function productStatus(Request $request)
