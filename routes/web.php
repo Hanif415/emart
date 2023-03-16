@@ -51,6 +51,7 @@ Route::post('banner_status', [BannerController::class, 'bannerStatus'])->name('b
 // Category
 Route::resource('/category', CategoryController::class);
 Route::post('category_status', [CategoryController::class, 'categoryStatus'])->name('category.status');
+Route::post('category/{id}/child', [CategoryController::class, 'getChildParentById']);
 
 // Brand
 Route::resource('/brand', BrandController::class);

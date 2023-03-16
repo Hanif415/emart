@@ -53,8 +53,21 @@
                         </div>
                     </td>
                     <td class="d-flex justify-content-center">
+                        {{-- get data by id --}}
+                        <div class="hidden">
+                            <?php
+                            $brand = \App\Models\Brand::find($product->brand_id);
+                            $category = \App\Models\Category::find($product->category_id);
+                            $child_category = \App\Models\Category::find($product->child_category_id);
+                            $vendor = \App\Models\User::find($product->vendor_id);
+                            $price = number_format($product->price, 2);
+                            $offer_price = number_format($product->offer_price, 2);
+                            $discount = number_format($product->discount, 2);
+                            ?>
+                        </div>
+
                         <a class="btn btn-sm btn-primary float-start me-1"
-                            onclick="show(`{{ $product->title }}`, `{{ $product->slug }}`, `{{ $product->summary }}`, `{{ $product->description }}`, `{{ $product->stock }}`, `{{ \App\Models\Brand::select('title')->where('id', $product->brand_id)->get() }}`, `{{ $product->category_id }}`, `{{ $product->child_category_id }}`, `{{ $product->photo }}`, `{{ $product->price }}`, `{{ $product->offer_price }}`, `{{ $product->discount }}`, `{{ $product->size }}`, `{{ $product->conditions }}`, `{{ $product->vendor_id }}`, `{{ $product->status }}`,)"><span
+                            onclick="show(`{{ $product->title }}`, `{{ $product->slug }}`, `{{ $product->summary }}`, `{{ $product->description }}`, `{{ $product->stock }}`, `{{ $brand->title }}`, `{{ $category->title }}`, `{{ $child_category->title }}`, `{{ $product->photo }}`, `${{ $price }}`, `${{ $offer_price }}`, `${{ $discount }}`, `{{ $product->size }}`, `{{ $product->conditions }}`, `{{ $vendor->full_name }}`, `{{ $product->status }}`,)"><span
                                 data-feather="eye"></span></a>
                         <a href="{{ route('product.edit', $product->id) }}"
                             class="btn btn-sm btn-warning float-start"><span data-feather="edit"></span></a>
@@ -81,17 +94,11 @@
                 </div>
                 <div class="modal-body">
                     <img id="photo" src="" alt="category image" style="max-width:275px; max-height:150px;">
-                    <p>
+                    <p class="mt-3">
                         <b>Title :</b> <span id="title"></span>
                     </p>
                     <p>
                         <b>Slug :</b> <span id="slug"></span>
-                    </p>
-                    <p>
-                        <b>Summary :</b> <span id="summary"></span>
-                    </p>
-                    <p>
-                        <b>Description :</b> <span id="description"></span>
                     </p>
                     <p>
                         <b>Stock :</b> <span id="stock"></span>
@@ -125,6 +132,12 @@
                     </p>
                     <p>
                         <b>Status :</b> <span id="stat"></span>
+                    </p>
+                    <p>
+                        <b>Summary :</b> <span id="summary"></span>
+                    </p>
+                    <p>
+                        <b>Description :</b> <span id="description"></span>
                     </p>
                 </div>
                 <div class="modal-footer">

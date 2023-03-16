@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use App\Models\Category;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -190,6 +191,20 @@ class CategoryController extends Controller
         } else {
             notify()->error('Something wrong, data not found');
             return back();
+        }
+    }
+
+    public function getChildParentById(Request $request, $id)
+    {
+        $category = Category::find($request->id);
+        if ($category) {
+            $child_id = Category::getChildParentById($request->id);
+            if (count($child_id) <= 0) {
+                return response()->json(['status' => false, 'data' => null, 'msg' => '']);
+            }
+            return response()->json(['status' => true, 'data' => $child_id, 'msg' => '']);
+        } else {
+            return response()->json(['status' => true, 'data' => null, 'msg' => 'Category Not Found!']);
         }
     }
 }

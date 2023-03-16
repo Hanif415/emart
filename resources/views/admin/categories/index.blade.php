@@ -38,8 +38,24 @@
                         </div>
                     </td>
                     <td>
+                        {{-- get data by id --}}
+                        <div class="hidden">
+                            <?php
+                            // change is parent to yes or no
+                            if ($category->is_parent == 1) {
+                                $is_parent = 'Yes';
+                            } else {
+                                $is_parent = 'No';
+                            }
+                            
+                            // get parent title
+                            $parent = \App\Models\Category::find($category->parent_id);
+                            
+                            ?>
+
+                        </div>
                         <a class="btn btn-sm btn-primary float-start me-1"
-                            onclick="show(`{{ $category->title }}`, `{{ $category->photo }}`, `{{ $category->is_parent }}`, `{{ $category->parent_id }}`, `{{ $category->status }}`, `{{ $category->slug }}`, `{{ $category->summary }}`)"><span
+                            onclick="show(`{{ $category->title }}`, `{{ $category->photo }}`, `{{ $is_parent }}`, `{{ $category->parent_id }}`, `{{ $category->status }}`, `{{ $category->slug }}`, `{{ $category->summardy }}`)"><span
                                 data-feather="eye"></span></a>
                         <a href="{{ route('category.edit', $category->id) }}"
                             class="btn btn-sm btn-warning float-start"><span data-feather="edit"></span></a>
