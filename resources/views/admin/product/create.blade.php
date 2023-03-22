@@ -51,7 +51,7 @@
             </div>
             <div class="mb-3">
                 <label for="vendor" class="form-label">Vendor</label>
-                <select name="vendor" id="vendor" class="form-select">
+                <select name="vendor_id" id="vendor" class="form-select">
                     <option value="">--Vendor--</option>
                     @foreach (App\Models\User::where('role', 'vendor')->get() as $user)
                         <option value="{{ $user->id }}">{{ $user->full_name }}</option>
@@ -115,7 +115,7 @@
                 </select>
             </div>
             <button class="btn btn-primary mt-3">Submit</button>
-            <a href="{{ route('banner.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
+            <a href="{{ route('product.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
         </form>
     </div>
 @endsection

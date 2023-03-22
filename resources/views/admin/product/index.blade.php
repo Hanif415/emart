@@ -58,19 +58,29 @@
                             <?php
                             $brand = \App\Models\Brand::find($product->brand_id);
                             $category = \App\Models\Category::find($product->category_id);
-                            // $child_category = \App\Models\Category::find($product->child_category_id);
+                            $child_category = $product->child_category_id;
+                            if ($child_category == null) {
+                                $child_category = '';
+                            } else {
+                                $get_child_category = \App\Models\Category::find($product->child_category_id);
+                                $child_category = $get_child_category->title;
+                            }
                             $vendor = \App\Models\User::find($product->vendor_id);
                             $price = number_format($product->price, 2);
                             $offer_price = number_format($product->offer_price, 2);
                             $discount = number_format($product->discount, 2);
                             ?>
                         </div>
-
-                        <a class="btn btn-sm btn-primary float-start me-1"
-                            onclick="show(`{{ $product->title }}`, `{{ $product->slug }}`, `{{ $product->summary }}`, `{{ $product->description }}`, `{{ $product->stock }}`, `{{ $brand->title }}`, `{{ $category->title }}`, `{{ $product->child_category_id }}`, `{{ $product->photo }}`, `${{ $price }}`, `${{ $offer_price }}`, `${{ $discount }}`, `{{ $product->size }}`, `{{ $product->conditions }}`, `{{ $vendor->full_name }}`, `{{ $product->status }}`,)"><span
-                                data-feather="eye"></span></a>
+                        {{-- show --}}
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary float-start me-1" data-bs-toggle="modal"
+                            data-bs-target="#showDataModal{{ $product->id }}"><span data-feather="eye"></span></a>
+                        {{-- <a class="btn btn-sm btn-primary float-start me-1"
+                            onclick="show(`{{ $product->title }}`, `{{ $product->slug }}`, `{{ $product->summary }}`, `{{ $product->description }}`, `{{ $product->stock }}`, `{{ $brand->title }}`, `{{ $category->title }}`, `{{ $child_category }}`, `{{ $product->photo }}`, `${{ $price }}`, `${{ $offer_price }}`, `${{ $discount }}`, `{{ $product->size }}`, `{{ $product->conditions }}`, `{{ $vendor->full_name }}`, `{{ $product->status }}`,)"><span
+                                data-feather="eye"></span></a> --}}
+                        {{-- edit --}}
                         <a href="{{ route('product.edit', $product->id) }}"
                             class="btn btn-sm btn-warning float-start"><span data-feather="edit"></span></a>
+                        {{-- delete --}}
                         <form class="float-start" action="{{ route('product.destroy', $product->id) }}" method="post">
                             @csrf
                             @method('delete')
@@ -78,14 +88,156 @@
                                     data-feather="trash"></span></a>
                         </form>
                     </td>
+
+                    {{-- Modal --}}
+                    {{-- <div class="modal-dialog modal-dialog-centered" id="modal" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="label">Product Detail</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img id="photo" src="" alt="category image"
+                                        style="max-width:275px; max-height:150px;">
+                                    <p class="mt-3">
+                                        <b>Title :</b> <span id="title"></span>
+                                    </p>
+                                    <p>
+                                        <b>Slug :</b> <span id="slug"></span>
+                                    </p>
+                                    <p>
+                                        <b>Stock :</b> <span id="stock"></span>
+                                    </p>
+                                    <p>
+                                        <b>Brand :</b> <span id="brand_id"></span>
+                                    </p>
+                                    <p>
+                                        <b>Category :</b> <span id="category_id"></span>
+                                    </p>
+                                    <p>
+                                        <b>Child Category :</b> <span id="child_category_id"></span>
+                                    </p>
+                                    <p>
+                                        <b>Price :</b> <span id="price"></span>
+                                    </p>
+                                    <p>
+                                        <b>Offer Price :</b> <span id="offer_price"></span>
+                                    </p>
+                                    <p>
+                                        <b>Discount :</b> <span id="discount"></span>
+                                    </p>
+                                    <p>
+                                        <b>Size :</b> <span id="size"></span>
+                                    </p>
+                                    <p>
+                                        <b>Condition :</b> <span id="conditions"></span>
+                                    </p>
+                                    <p>
+                                        <b>Vendor :</b> <span id="vendor_id"></span>
+                                    </p>
+                                    <p>
+                                        <b>Status :</b> <span id="stat"></span>
+                                    </p>
+                                    <p>
+                                        <b>Summary :</b> <span id="summary"></span>
+                                    </p>
+                                    <p>
+                                        <b>Description :</b> <span id="description"></span>
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <!-- Vertically centered modal -->
+                    <div class="modal fade" id="showDataModal{{ $product->id }}" tabindex="-1"
+                        aria-labelledby="showDataModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            @php
+                                $product = \App\Models\Product::where('id', $product->id)->first();
+                            @endphp
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="showDataModalLabel">Product Details</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img id="photo" src="{{ $product->photo }}" alt="category image"
+                                        style="max-width:275px; max-height:150px;">
+                                    <p class="mt-3">
+                                        <b>Title :</b> <span id="title">{{ $product->title }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Slug :</b> <span id="slug">{{ $product->slug }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Stock :</b> <span id="stock">{{ $product->stock }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Brand :</b> <span
+                                            id="brand_id">{{ App\Models\Brand::where('id', $product->brand_id)->value('title') }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Category :</b> <span
+                                            id="category_id">{{ App\Models\Category::where('id', $product->category_id)->value('title') }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Child Category :</b> <span id="child_category_id">@php
+                                            if ($product->child_category_id == null) {
+                                                echo 'doesnt have child';
+                                            } else {
+                                                echo App\Models\Category::find($product->child_category_id)->title;
+                                            }
+                                        @endphp</span>
+                                    </p>
+                                    <p>
+                                        <b>Price :</b> <span id="price">{{ $product->price }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Offer Price :</b> <span id="offer_price">{{ $product->offer_price }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Discount :</b> <span id="discount">{{ $product->discount }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Size :</b> <span id="size">{{ $product->size }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Condition :</b> <span id="conditions">{{ $product->conditions }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Vendor :</b> <span id="vendor_id">{{ $product->vendor }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Status :</b> <span id="stat">{{ $product->status }}</span>
+                                    </p>
+                                    <p>
+                                        <b>Summary :</b> <span id="summary">{!! $product->summary !!}</span>
+                                    </p>
+                                    <p>
+                                        <b>Description :</b> <span id="description">{!! $product->description !!}</span>
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
     {{-- Modal --}}
-    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="label" aria-hidden="true">
+    {{-- <div class="modal-dialog modal-dialog-centered" id="modal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -145,12 +297,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')
     {{-- Show Data --}}
-    <script>
+    {{-- <script>
         let show = (title, slug, summary, description, stock, brand_id, category_id, child_category_id, photo, price,
             offer_price, discount, size, conditions, vendor_id, status) => {
             $('#title').text(title)
@@ -172,7 +324,7 @@
             $('#stat').text(status)
             $('#modal').modal('show')
         }
-    </script>
+    </script> --}}
     {{-- end show data --}}
 
     {{-- update status --}}
