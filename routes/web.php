@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -60,3 +61,7 @@ Route::post('brand_status', [BrandController::class, 'brandStatus'])->name('bran
 // Product
 Route::resource('/product', ProductController::class);
 Route::post('product_status', [ProductController::class, 'productStatus'])->name('product.status');
+
+// User
+Route::resource('/user', UserController::class);
+Route::post('user_status', [UserController::class, 'userStatus'])->name('user.status');

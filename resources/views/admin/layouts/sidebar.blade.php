@@ -79,7 +79,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('setting') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                <a class="nav-link {{ Request::is('user') ? 'active' : '' }}" aria-current="page"
+                    href="{{ route('user.index') }}">
                     <i class="bi bi-person"></i>
                     Users
                 </a>

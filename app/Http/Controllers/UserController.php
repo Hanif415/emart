@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -13,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::orderBy('id', 'desc')->get();
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -35,6 +38,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function userStatus(Request $request)
+    {
+        if ($request->checked == 'true') {
+            DB::table('users')->where('id', $request->id)->update(['status' => 'active']);
+        } else {
+            DB::table('users')->where('id', $request->id)->update(['status' => 'inactive']);
+        }
+
+        return response()->json(['msg' => 'Status Updated', 'status' => true]);
     }
 
     /**
