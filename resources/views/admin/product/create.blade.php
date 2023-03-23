@@ -69,7 +69,7 @@
             </div>
             <div class="mb-3 d-none" id="child_category_div">
                 <label for="child_category_id" class="form-label">Child Category</label>
-                <select name="child_category" id="child_category" class="form-select">
+                <select name="child_category_id" id="child_category_id" class="form-select">
                 </select>
             </div>
             <div class="mb-3">
@@ -146,7 +146,7 @@
                         } else {
                             $('#child_category_div').addClass('d-none');
                         }
-                        $('#child_category').html(html_option);
+                        $('#child_category_id').html(html_option);
                     }
                 })
             }
