@@ -50,7 +50,7 @@ class ProductController extends Controller
             'child_category_id' => 'nullable|exists:categories,id',
             'size' => 'nullable',
             'conditions' => 'nullable',
-            'status' => 'nullable|in:active, inactive',
+            'status' => 'nullable|in:active,inactive',
         ]);
 
         $data = $request->all();
@@ -62,6 +62,7 @@ class ProductController extends Controller
         if ($slug_count > 0) {
             $slug = time() . '-' . $slug;
         }
+
         $data['slug'] = $slug;
         $data['offer_price'] = $request->price - ($request->price * $request->discount) / 100;
 
@@ -105,7 +106,13 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        if ($product) {
+            return view('admin.product.edit', compact('product'));
+        } else {
+            notify()->error('Something wrong, data not found');
+            return back();
+        }
     }
 
     /**
@@ -117,7 +124,48 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // validate data request
+        $this->validate($request, [
+            'title' => 'string|required',
+            'summary' => 'string|required',
+            'description' => 'string|required',
+            'stock' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
+            'discount' => 'nullable|numeric',
+            'photo' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'child_category_id' => 'nullable|exists:categories,id',
+            'size' => 'nullable',
+            'conditions' => 'nullable',
+            'status' => 'nullable|in:active,inactive',
+        ]);
+
+        $data = $request->all();
+
+        // create a slug from title
+        $slug = Str::slug($request->input('title'));
+
+        // get the count of slug
+        $slug_count = Product::where('slug', $slug)->count();
+
+        // if slug more then 0 then customize slug
+        if ($slug_count > 0) {
+            $slug = time() . '-' . $slug;
+        }
+
+        $data['slug'] = $slug;
+        $data['offer_price'] = $request->price - ($request->price * $request->discount) / 100;
+
+        $product = Product::find($id);
+        $status = $product->fill($data)->save();
+
+        if ($status) {
+            notify()->success('Successfully updated product');
+            return redirect()->route('product.index')->with('success');
+        } else {
+            notify()->error('Something went wrong');
+            return back()->with('error');
+        }
     }
 
     /**
@@ -128,6 +176,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        if ($product) {
+            $status = $product->delete();
+            if ($status) {
+                notify()->success('Successfully deleted product');
+                return redirect()->route('product.index');
+            }
+        } else {
+            notify()->error('Something wrong, data not found');
+            return back();
+        }
     }
 }

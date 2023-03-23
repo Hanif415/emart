@@ -45,7 +45,8 @@
                 <select name="brand_id" id="brand" class="form-select">
                     <option value="">--Brand--</option>
                     @foreach (App\Models\Brand::get() as $brand)
-                        <option value="{{ $brand->id }}">{{ $brand->title }}</option>
+                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
+                            {{ $brand->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -54,7 +55,8 @@
                 <select name="vendor_id" id="vendor" class="form-select">
                     <option value="">--Vendor--</option>
                     @foreach (App\Models\User::where('role', 'vendor')->get() as $user)
-                        <option value="{{ $user->id }}">{{ $user->full_name }}</option>
+                        <option value="{{ $user->id }}" {{ old('vendor_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->full_name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -63,7 +65,8 @@
                 <select name="category_id" id="category" class="form-select">
                     <option value="">--Category--</option>
                     @foreach (App\Models\Category::where('is_parent', 1)->get() as $category)
-                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->title }}</option>
                     @endforeach
                 </select>
             </div>

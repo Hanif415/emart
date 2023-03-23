@@ -1,5 +1,5 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-    <div class="position-sticky pt-3">
+    <div class="position-sticky pt-3 text-sm">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard">
@@ -11,28 +11,28 @@
                 <a class="nav-link {{ Request::is('banner') ? 'active' : '' }}" aria-current="page"
                     href="{{ route('banner.index') }}">
                     <i class="bi bi-image"></i>
-                    Banner
+                    Banners
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('category') ? 'active' : '' }}" aria-current="page"
                     href="{{ route('category.index') }}">
                     <i class="bi bi-tags"></i>
-                    Category
+                    Categories
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('product') ? 'active' : '' }}" aria-current="page"
                     href="{{ route('product.index') }}">
                     <i class="bi bi-briefcase"></i>
-                    Product
+                    Products
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('brand') ? 'active' : '' }}" aria-current="page"
                     href="{{ route('brand.index') }}">
                     <i class="bi bi-handbag"></i>
-                    Brand
+                    Brands
                 </a>
             </li>
             <li class="nav-item">
@@ -44,38 +44,56 @@
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('order') ? 'active' : '' }}" aria-current="page" href="/dashboard">
                     <i class="bi bi-truck"></i>
-                    Order
+                    Orders
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('post') ? 'active' : '' }}" aria-current="page" href="/dashboard">
                     <i class="bi bi-journal"></i>
-                    Post
+                    Posts
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('post-category') ? 'active' : '' }}" aria-current="page"
                     href="/dashboard">
                     <i class="bi bi-bookmark"></i>
-                    Post Category
+                    Post Categories
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('tag') ? 'active' : '' }}" aria-current="page" href="/dashboard">
                     <i class="bi bi-tag-fill"></i>
-                    Post Tag
+                    Post Tags
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('review') ? 'active' : '' }}" aria-current="page" href="/dashboard">
                     <i class="bi bi-pen"></i>
-                    Review
+                    Reviews
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('setting') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                    <i class="bi bi-check-circle"></i>
+                    Coupons
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('setting') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                    <i class="bi bi-person"></i>
+                    Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('setting') ? 'active' : '' }}" aria-current="page" href="/dashboard">
+                    <i class="bi bi-chat-left-text"></i>
+                    Comments
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('setting') ? 'active' : '' }}" aria-current="page" href="/dashboard">
                     <i class="bi bi-gear"></i>
-                    Setting
+                    Settings
                 </a>
             </li>
         </ul>

@@ -27,6 +27,9 @@
         </thead>
         <tbody>
             @foreach ($products as $product)
+                @php
+                    $photo = explode(',', $product->photo);
+                @endphp
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $product->title }}</td>
@@ -101,7 +104,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="d-flex justify-center">
-                                        <img id="photo" src="{{ $product->photo }}" alt="category image"
+                                        <img id="photo" src="{{ $photo[0] }}" alt="category image"
                                             style="max-width:275px; max-height:150px;">
                                     </div>
                                     <div class="row mt-3">
@@ -213,7 +216,9 @@
             @endforeach
         </tbody>
     </table>
+@endsection
 
+@section('scripts')
     {{-- update status --}}
     <script>
         $('input[name = status]').change(function() {
@@ -258,6 +263,9 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     form.submit();
+                    // swal("Poof! Your imaginary file has been deleted!", {
+                    //     icon: "success",
+                    // });
                 } else {
                     swal("Poof! Your imaginary file has been deleted!");
                 }
