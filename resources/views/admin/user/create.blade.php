@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h5">Add Banner</h1>
+        <h1 class="h5">Add User</h1>
     </div>
     <div class="container bg-white p-3 rounded shadow-sm">
         @if ($errors->any())
@@ -12,12 +12,12 @@
                 </div>
             @endforeach
         @endif
-        <form action="{{ route('banner.store') }}" method="post">
+        <form action="{{ route('user.store') }}" method="post">
             @csrf
             <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input name="title" type="text" class="form-control" id="title" placeholder="Title"
-                    value="{{ old('title') }}" required>
+                <label for="full_name" class="form-label">Full Name</label>
+                <input name="full_name" type="text" class="form-control" id="full_name" placeholder="Full Name"
+                    value="{{ old('full_name') }}" required>
             </div>
             <div class="mb-3">
                 <label for="thumbnail" class="form-label">Photo</label>
@@ -32,15 +32,31 @@
                 <div id="holder" style="margin-top:15px;max-height:100px;"></div>
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                    placeholder="Write some text...">{{ old('description') }}</textarea>
+                <label for="email" class="form-label">Email</label>
+                <input name="email" type="text" class="form-control" id="email" placeholder="Email"
+                    value="{{ old('email') }}" required>
             </div>
-            <label for="condition" class="form-label">Condition</label>
-            <select name="condition" id="condition" class="form-select">
-                <option>--Condition--</option>
-                <option value="banner" {{ old('condition') == 'banner' ? 'selected' : '' }}>Banner</option>
-                <option value="promo" {{ old('condition' == 'promo' ? 'selected' : '') }}>Promo</option>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input name="password" type="text" class="form-control" id="password" placeholder="Password"
+                    value="{{ old('password') }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone"
+                    value="{{ old('phone') }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input name="address" type="text" class="form-control" id="address" placeholder="Address"
+                    value="{{ old('address') }}" required>
+            </div>
+            <label for="role" class="form-label">Role</label>
+            <select name="role" id="role" class="form-select">
+                <option>--Role--</option>
+                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                <option value="customer" {{ old('role' == 'customer' ? 'selected' : '') }}>Customer</option>
+                <option value="vendor" {{ old('role' == 'vendor' ? 'selected' : '') }}>Vendor</option>
             </select>
             <label for="status" class="form-label mt-3">Status</label>
             <select name="status" id="status" class="form-select">
@@ -49,7 +65,7 @@
                 <option value="inactive" {{ old('status' == 'inactive' ? 'selected' : '') }}>Inactive</option>
             </select>
             <button class="btn btn-primary mt-3">Submit</button>
-            <a href="{{ route('banner.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
+            <a href="{{ route('user.index') }}" class="btn btn-outline-light mt-3 text-dark">Cancel</a>
         </form>
     </div>
 @endsection

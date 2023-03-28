@@ -24,6 +24,9 @@
         </thead>
         <tbody>
             @foreach ($users as $user)
+                @php
+                    $photo = explode(',', $user->photo);
+                @endphp
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $user->username }}</td>
@@ -36,64 +39,91 @@
                         </div>
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-primary float-start me-1"
-                            onclick="show(`{{ $user->title }}`, `{{ $user->slug }}`, `{{ $user->description }}`, `{{ $user->photo }}`, `{{ $user->status }}`, `{{ $user->condition }}`)"><span
-                                data-feather="eye"></span></a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary float-start me-1" data-bs-toggle="modal"
+                            data-bs-target="#showDataModal{{ $user->id }}"><span class="bi bi-eye"></span></a>
                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-warning float-start"><span
-                                data-feather="edit"></span></a>
+                                class="bi bi-pencil"></span></a>
                         <form class="float-start" action="{{ route('user.destroy', $user->id) }}" method="post">
                             @csrf
                             @method('delete')
                             <a class="float btn btn-sm btn-danger ms-1 delete" data-id="{{ $user->id }}"><span
-                                    data-feather="trash"></span></a>
+                                    class="bi bi-trash"></span></a>
                         </form>
                     </td>
+
+                    {{-- Modal --}}
+                    <div class="modal modal-lg fade" id="showDataModal{{ $user->id }}" tabindex="-1"
+                        aria-labelledby="showDataModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            @php
+                                $user = \App\Models\User::where('id', $user->id)->first();
+                            @endphp
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="showDataModalLabel">User Details</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex justify-center">
+                                        <img id="photo" src="{{ $photo[0] }}" alt="category image"
+                                            style="max-width:275px; max-height:150px;">
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p>
+                                                <b>Full Name :</b> <span
+                                                    id="title">{{ \Illuminate\Support\Str::upper($user->full_name) }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>
+                                                <b>Username :</b> <span id="slug">{{ $user->username }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p>
+                                                <b>Email :</b> <span id="stock">{{ $user->email }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>
+                                                <b>Phone :</b> <span id="stock">{{ $user->phone }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p>
+                                                <b>Role :</b> <span id="conditions">{{ $user->role }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>
+                                                <b>Status :</b> <span id="stat">{{ $user->status }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3">
+                                        <b>Address :</b> <span id="summary">{{ $user->address }}</span>
+                                    </p>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
-    {{-- Modal --}}
-    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="label">user Detail</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img id="photo" src="" alt="user image" class="mb-3"
-                        style="max-width:275px; max-height:150px;">
-                    <p id="title"></p>
-                    <p id="slug"></p>
-                    <p id="description"></p>
-                    <p id="stat"></p>
-                    <p id="condition"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
-    {{-- Show Data --}}
-    <script>
-        let show = (title, slug, description, photo, status, condition) => {
-            $('#title').text('Title : ' + title)
-            $('#slug').text('Slug : ' + slug)
-            $('#description').text('Description: ' + description)
-            $('#photo').attr("src", photo)
-            $('#stat').text('Status : ' + status)
-            $('#condition').text('Condition : ' + condition)
-            $('#modal').modal('show')
-        }
-    </script>
-    {{-- end show data --}}
-
     {{-- update status --}}
     <script>
         $('input[name = status]').change(function() {

@@ -90,7 +90,7 @@
                     </td>
 
                     {{-- Modal --}}
-                    <div class="modal fade" id="showDataModal{{ $product->id }}" tabindex="-1"
+                    <div class="modal modal-lg fade" id="showDataModal{{ $product->id }}" tabindex="-1"
                         aria-labelledby="showDataModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             @php
@@ -108,24 +108,24 @@
                                             style="max-width:275px; max-height:150px;">
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Title :</b> <span id="title">{{ $product->title }}</span>
                                             </p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-8">
                                             <p>
                                                 <b>Slug :</b> <span id="slug">{{ $product->slug }}</span>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Stock :</b> <span id="stock">{{ $product->stock }}</span>
                                             </p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Brand :</b> <span
                                                     id="brand_id">{{ App\Models\Brand::where('id', $product->brand_id)->value('title') }}</span>
@@ -133,13 +133,13 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Category :</b> <span
                                                     id="category_id">{{ App\Models\Category::where('id', $product->category_id)->value('title') }}</span>
                                             </p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-8">
                                             <p>
                                                 <b>Child Category :</b> <span
                                                     id="child_category_id">@php
@@ -153,13 +153,13 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Price :</b> <span
                                                     id="price">${{ number_format($product->price, 2) }}</span>
                                             </p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Offer Price :</b> <span
                                                     id="offer_price">${{ number_format($product->offer_price, 2) }}</span>
@@ -167,24 +167,24 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Discount :</b> <span id="discount">{{ $product->discount }}%</span>
                                             </p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-8">
                                             <p>
                                                 <b>Size :</b> <span id="size">{{ $product->size }}</span>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Condition :</b> <span id="conditions">{{ $product->conditions }}</span>
                                             </p>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-8">
                                             <p>
                                                 <b>Vendor :</b> <span
                                                     id="vendor_id">{{ App\Models\User::find($product->vendor_id)->full_name }}</span>
@@ -192,7 +192,7 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <p>
                                                 <b>Status :</b> <span id="stat">{{ $product->status }}</span>
                                             </p>
@@ -212,6 +212,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </tr>
             @endforeach
         </tbody>
