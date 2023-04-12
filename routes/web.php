@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Customer\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -20,12 +21,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Customer page section
+Route::get('/', [IndexController::class, 'home'])->name('home');
+// End Customer
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Auth::routes(['register' => false]);
+// admin section
+Auth::routes(['register' => false]);
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');

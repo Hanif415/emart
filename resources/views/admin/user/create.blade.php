@@ -20,6 +20,11 @@
                     value="{{ old('full_name') }}" required>
             </div>
             <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input name="username" type="text" class="form-control" id="username" placeholder="Full Name"
+                    value="{{ old('username') }}" required>
+            </div>
+            <div class="mb-3">
                 <label for="thumbnail" class="form-label">Photo</label>
                 <div class="input-group">
                     <span class="input-group-btn">

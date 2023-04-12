@@ -185,7 +185,7 @@ class CategoryController extends Controller
                 if (count($child_category_id) > 0) {
                     Category::shiftChild($child_category_id);
                 }
-                notify()->success('Successfully deleted banner');
+                notify()->success('Successfully deleted category');
                 return redirect()->route('category.index');
             }
         } else {
