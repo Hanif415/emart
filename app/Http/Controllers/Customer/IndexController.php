@@ -11,6 +11,6 @@ class IndexController extends Controller
     public function home()
     {
         $banners = Banner::where(['status' => 'active', 'condition' => 'banner'])->orderBy('id', 'DESC')->limit('5')->get();
-        return view('customer.layouts.master', compact('banners'));
+        return view('customer.index', compact('banners'));
     }
 }
